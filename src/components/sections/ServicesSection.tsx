@@ -6,7 +6,7 @@ const services = [
     icon: Settings,
     title: "Revisão Completa",
     description: "Inspeção de 50 pontos, filtros, velas e regulações.",
-    price: "Desde 89€",
+    price: "Desde 150€",
   },
   {
     icon: Droplets,
