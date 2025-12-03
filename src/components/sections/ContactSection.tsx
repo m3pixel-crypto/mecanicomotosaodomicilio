@@ -2,28 +2,32 @@ import { useState } from "react";
 import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-
 export const ContactSection = () => {
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     service: "",
-    message: "",
+    message: ""
   });
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
       title: "Mensagem Enviada!",
-      description: "Entraremos em contacto consigo em breve.",
+      description: "Entraremos em contacto consigo em breve."
     });
-    setFormData({ name: "", email: "", phone: "", service: "", message: "" });
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      service: "",
+      message: ""
+    });
   };
-
-  return (
-    <section id="contactos" className="py-20 bg-background">
+  return <section id="contactos" className="py-20 bg-background">
       <div className="container">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="text-accent font-semibold text-sm uppercase tracking-wider">
@@ -41,16 +45,9 @@ export const ContactSection = () => {
           {/* Contact Info */}
           <div className="space-y-8">
             <div className="aspect-video rounded-xl overflow-hidden shadow-elegant-lg">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3004.1542889999998!2d-8.6109!3d41.1496!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDA4JzU4LjYiTiA4wrAzNic0MC0zIlc!5e0!3m2!1spt-PT!2spt!4v1699999999999!5m2!1spt-PT!2spt"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Localização MotoTech"
-              />
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3004.1542889999998!2d-8.6109!3d41.1496!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDA4JzU4LjYiTiA4wrAzNic0MC0zIlc!5e0!3m2!1spt-PT!2spt!4v1699999999999!5m2!1spt-PT!2spt" width="100%" height="100%" style={{
+              border: 0
+            }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Localização MotoTech" />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -61,7 +58,7 @@ export const ContactSection = () => {
                 <div>
                   <h4 className="font-semibold text-foreground">Morada</h4>
                   <p className="text-muted-foreground text-sm">
-                    Rua das Oficinas, 123<br />4000-001 Porto
+                    Montijo<br />​
                   </p>
                 </div>
               </div>
@@ -72,7 +69,7 @@ export const ContactSection = () => {
                 </div>
                 <div>
                   <h4 className="font-semibold text-foreground">Telefone</h4>
-                  <a href="tel:+351912345678" className="text-muted-foreground text-sm hover:text-accent transition-colors">
+                  <a className="text-muted-foreground text-sm hover:text-accent transition-colors" href="tel:+351910392073">
                     +351 912 345 678
                   </a>
                 </div>
@@ -113,26 +110,19 @@ export const ContactSection = () => {
                   <label className="block text-sm font-medium text-foreground mb-2">
                     Nome *
                   </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent transition-shadow"
-                    placeholder="O seu nome"
-                  />
+                  <input type="text" required value={formData.name} onChange={e => setFormData({
+                  ...formData,
+                  name: e.target.value
+                })} className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent transition-shadow" placeholder="O seu nome" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">
                     Telefone
                   </label>
-                  <input
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent transition-shadow"
-                    placeholder="+351 912 345 678"
-                  />
+                  <input type="tel" value={formData.phone} onChange={e => setFormData({
+                  ...formData,
+                  phone: e.target.value
+                })} className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent transition-shadow" placeholder="+351 912 345 678" />
                 </div>
               </div>
 
@@ -140,25 +130,20 @@ export const ContactSection = () => {
                 <label className="block text-sm font-medium text-foreground mb-2">
                   Email *
                 </label>
-                <input
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent transition-shadow"
-                  placeholder="o.seu@email.com"
-                />
+                <input type="email" required value={formData.email} onChange={e => setFormData({
+                ...formData,
+                email: e.target.value
+              })} className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent transition-shadow" placeholder="o.seu@email.com" />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">
                   Serviço Pretendido
                 </label>
-                <select
-                  value={formData.service}
-                  onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                  className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent transition-shadow"
-                >
+                <select value={formData.service} onChange={e => setFormData({
+                ...formData,
+                service: e.target.value
+              })} className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent transition-shadow">
                   <option value="">Selecione um serviço</option>
                   <option value="revisao">Revisão Completa</option>
                   <option value="oleo">Troca de Óleo</option>
@@ -174,13 +159,10 @@ export const ContactSection = () => {
                 <label className="block text-sm font-medium text-foreground mb-2">
                   Mensagem
                 </label>
-                <textarea
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  rows={4}
-                  className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent transition-shadow resize-none"
-                  placeholder="Descreva o que precisa..."
-                />
+                <textarea value={formData.message} onChange={e => setFormData({
+                ...formData,
+                message: e.target.value
+              })} rows={4} className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent transition-shadow resize-none" placeholder="Descreva o que precisa..." />
               </div>
 
               <Button type="submit" variant="cta" size="lg" className="w-full">
@@ -191,6 +173,5 @@ export const ContactSection = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
