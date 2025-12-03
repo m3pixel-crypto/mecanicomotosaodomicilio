@@ -81,8 +81,8 @@ export const ContactSection = () => {
                 </div>
                 <div>
                   <h4 className="font-semibold text-foreground">Email</h4>
-                  <a href="mailto:info@mototech.pt" className="text-muted-foreground text-sm hover:text-accent transition-colors">
-                    info@mototech.pt
+                  <a className="text-muted-foreground text-sm hover:text-accent transition-colors" href="mailto:mecanicomotociclos@gmail.com">
+                    mecanicomotociclos@gmail.com
                   </a>
                 </div>
               </div>
