@@ -14,7 +14,107 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      motorcycles: {
+        Row: {
+          brand: string
+          created_at: string
+          current_km: number
+          id: string
+          model: string
+          plate: string
+          updated_at: string
+          user_id: string
+          year: number
+        }
+        Insert: {
+          brand: string
+          created_at?: string
+          current_km?: number
+          id?: string
+          model: string
+          plate: string
+          updated_at?: string
+          user_id: string
+          year: number
+        }
+        Update: {
+          brand?: string
+          created_at?: string
+          current_km?: number
+          id?: string
+          model?: string
+          plate?: string
+          updated_at?: string
+          user_id?: string
+          year?: number
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      service_history: {
+        Row: {
+          created_at: string
+          id: string
+          km_at_service: number
+          motorcycle_id: string
+          service_date: string
+          service_description: string
+          source: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          km_at_service: number
+          motorcycle_id: string
+          service_date: string
+          service_description: string
+          source?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          km_at_service?: number
+          motorcycle_id?: string
+          service_date?: string
+          service_description?: string
+          source?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_history_motorcycle_id_fkey"
+            columns: ["motorcycle_id"]
+            isOneToOne: false
+            referencedRelation: "motorcycles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
