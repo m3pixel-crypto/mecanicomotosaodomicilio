@@ -1,8 +1,6 @@
 import { Wrench, Phone, Mail, MapPin, Facebook, Instagram, Youtube } from "lucide-react";
-
 export const Footer = () => {
-  return (
-    <footer className="bg-primary text-primary-foreground">
+  return <footer className="bg-primary text-primary-foreground">
       <div className="container py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand */}
@@ -11,7 +9,7 @@ export const Footer = () => {
               <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center">
                 <Wrench className="w-6 h-6 text-accent-foreground" />
               </div>
-              <span className="font-bold text-xl">MotoTech</span>
+              <span className="font-bold text-xl">Mecânico ao Domicílio </span>
             </div>
             <p className="text-primary-foreground/80 text-sm leading-relaxed">
               A sua oficina de confiança para motas. Mais de 15 anos de experiência, 
@@ -82,6 +80,5 @@ export const Footer = () => {
           <p>© {new Date().getFullYear()} MotoTech. Todos os direitos reservados.</p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
