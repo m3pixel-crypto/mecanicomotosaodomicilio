@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Menu, X, Wrench } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ScheduleDialog } from "@/components/ScheduleDialog";
+
 const navLinks = [{
   href: "#inicio",
   label: "Início"
@@ -17,6 +19,7 @@ const navLinks = [{
   href: "#contactos",
   label: "Contactos"
 }];
+
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
@@ -43,11 +46,11 @@ export const Header = () => {
               Área Cliente
             </Button>
           </a>
-          <a href="#servicos">
+          <ScheduleDialog>
             <Button variant="cta" size="sm">
               Agendar
             </Button>
-          </a>
+          </ScheduleDialog>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -68,11 +71,11 @@ export const Header = () => {
                   Área Cliente
                 </Button>
               </a>
-              <a href="#servicos" onClick={() => setIsMenuOpen(false)}>
+              <ScheduleDialog>
                 <Button variant="cta" className="w-full">
                   Agendar
                 </Button>
-              </a>
+              </ScheduleDialog>
             </div>
           </nav>
         </div>}
