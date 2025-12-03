@@ -12,7 +12,7 @@ const services = [
     icon: Droplets,
     title: "Troca de Óleo",
     description: "Óleo premium e filtro de óleo incluído.",
-    price: "Desde 45€",
+    price: "Desde 75€",
   },
   {
     icon: Zap,
