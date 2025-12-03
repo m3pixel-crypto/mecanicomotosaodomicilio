@@ -94,7 +94,7 @@ export const ContactSection = () => {
                 <div>
                   <h4 className="font-semibold text-foreground">Horário</h4>
                   <p className="text-muted-foreground text-sm">
-                    Seg-Sex: 9h-18h<br />Sáb: 9h-13h
+                    Seg-Sex: 10h-18h<br />Sáb: 10h-13h
                   </p>
                 </div>
               </div>
