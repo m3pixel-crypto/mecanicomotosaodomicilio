@@ -1,5 +1,6 @@
 import { Settings, Droplets, Zap, CircleDot, Wrench, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ScheduleDialog } from "@/components/ScheduleDialog";
 
 const services = [
   {
@@ -71,9 +72,11 @@ export const ServicesSection = () => {
               </div>
               <h3 className="font-bold text-lg mb-2 text-foreground">{service.title}</h3>
               <p className="text-muted-foreground text-sm mb-4">{service.description}</p>
-              <Button variant="outline" size="sm" className="w-full group-hover:bg-accent group-hover:text-accent-foreground group-hover:border-accent transition-colors">
-                Agendar
-              </Button>
+              <ScheduleDialog preselectedService={service.title}>
+                <Button variant="outline" size="sm" className="w-full group-hover:bg-accent group-hover:text-accent-foreground group-hover:border-accent transition-colors">
+                  Agendar
+                </Button>
+              </ScheduleDialog>
             </div>
           ))}
         </div>
