@@ -16,7 +16,7 @@ const services = [
   },
   {
     icon: Zap,
-    title: "Diagnóstico Eletrónico",
+    title: "Diagnóstico de falhas e problemas",
     description: "Leitura de erros e programação de centralinas.",
     price: "Desde 35€",
   },
