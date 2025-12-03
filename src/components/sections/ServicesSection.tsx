@@ -10,7 +10,7 @@ const services = [
   },
   {
     icon: Droplets,
-    title: "Troca de Óleo",
+    title: "Troca de óleo de motor + Filtro de óleo",
     description: "Óleo premium e filtro de óleo incluído.",
     price: "Desde 75€",
   },
