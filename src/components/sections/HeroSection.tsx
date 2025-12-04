@@ -39,7 +39,7 @@ export const HeroSection = () => {
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </a>
-            <a href="tel:+351912345678">
+            <a href="tel:+351910392073">
               <Button variant="outline-light" size="xl" className="w-full sm:w-auto">
                 <Phone className="w-5 h-5" />
                 Ligar Agora
