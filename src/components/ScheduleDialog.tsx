@@ -123,7 +123,7 @@ export const ScheduleDialog = ({ children, preselectedService }: ScheduleDialogP
 
 📝 *Observações:* ${data.notes || "Nenhuma"}`;
 
-    const whatsappUrl = `https://wa.me/351912345678?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/351910392073?text=${encodeURIComponent(message)}`;
     
     // Simulate a small delay for UX
     await new Promise(resolve => setTimeout(resolve, 500));
