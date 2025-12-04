@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Send, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
 
 const contactSchema = z.object({
@@ -24,8 +25,9 @@ export const ContactSection = () => {
     message: ""
   });
   const [errors, setErrors] = useState<Partial<Record<keyof ContactFormData, string>>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     const result = contactSchema.safeParse(formData);
@@ -48,17 +50,42 @@ export const ContactSection = () => {
     }
     
     setErrors({});
-    toast({
-      title: "Mensagem Enviada!",
-      description: "Entraremos em contacto consigo em breve."
-    });
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      service: "",
-      message: ""
-    });
+    setIsSubmitting(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke("send-contact-email", {
+        body: {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          service: formData.service,
+          message: formData.message,
+        },
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Mensagem Enviada!",
+        description: "Entraremos em contacto consigo em breve."
+      });
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        service: "",
+        message: ""
+      });
+    } catch (error: any) {
+      console.error("Error sending contact email:", error);
+      toast({
+        title: "Erro ao Enviar",
+        description: "Não foi possível enviar a mensagem. Tente novamente.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -251,9 +278,13 @@ export const ContactSection = () => {
                 )}
               </div>
 
-              <Button type="submit" variant="cta" size="lg" className="w-full">
-                <Send className="w-4 h-4" />
-                Enviar Mensagem
+              <Button type="submit" variant="cta" size="lg" className="w-full" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Send className="w-4 h-4" />
+                )}
+                {isSubmitting ? "A enviar..." : "Enviar Mensagem"}
               </Button>
             </form>
           </div>
