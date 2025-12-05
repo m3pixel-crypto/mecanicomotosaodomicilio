@@ -35,7 +35,7 @@ const services = [
   },
   {
     icon: Palette,
-    title: "Customização",
+    title: "Restauros e Customizações",
     description: "Escapes, suspensões, acessórios e pintura.",
     price: "Sob consulta",
   },
