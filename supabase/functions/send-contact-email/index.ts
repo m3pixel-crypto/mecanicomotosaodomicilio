@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 
@@ -7,13 +8,26 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-interface ContactEmailRequest {
-  name: string;
-  email: string;
-  phone?: string;
-  service?: string;
-  message?: string;
-}
+// Input validation schema
+const contactSchema = z.object({
+  name: z.string().min(1).max(100),
+  email: z.string().email().max(255),
+  phone: z.string().max(20).optional(),
+  service: z.string().max(50).optional(),
+  message: z.string().max(2000).optional(),
+});
+
+// HTML escape function to prevent injection
+const escapeHtml = (str: string): string => {
+  const htmlEscapes: Record<string, string> = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  };
+  return str.replace(/[&<>"']/g, (char) => htmlEscapes[char] || char);
+};
 
 const serviceLabels: Record<string, string> = {
   revisao: "Revisão Completa",
@@ -33,11 +47,36 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { name, email, phone, service, message }: ContactEmailRequest = await req.json();
+    const body = await req.json();
+    
+    // Server-side validation
+    const validationResult = contactSchema.safeParse(body);
+    if (!validationResult.success) {
+      console.error("Validation failed:", validationResult.error.errors);
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: "Invalid input data",
+          details: validationResult.error.errors 
+        }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
 
-    console.log("Processing contact from:", name, email);
+    const { name, email, phone, service, message } = validationResult.data;
 
-    const serviceLabel = service ? serviceLabels[service] || service : "Não especificado";
+    // Escape all user inputs for HTML
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safePhone = phone ? escapeHtml(phone) : "Não fornecido";
+    const safeMessage = message ? escapeHtml(message) : "Sem mensagem adicional";
+
+    console.log("Processing contact from:", safeName, safeEmail);
+
+    const serviceLabel = service ? (serviceLabels[service] || escapeHtml(service)) : "Não especificado";
 
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -48,15 +87,15 @@ const handler = async (req: Request): Promise<Response> => {
       body: JSON.stringify({
         from: "Formulário de Contacto <onboarding@resend.dev>",
         to: ["mecanicomotociclos@gmail.com"],
-        subject: `Novo contacto de ${name}`,
+        subject: `Novo contacto de ${safeName}`,
         html: `
           <h2>Novo contacto recebido</h2>
-          <p><strong>Nome:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Telefone:</strong> ${phone || "Não fornecido"}</p>
+          <p><strong>Nome:</strong> ${safeName}</p>
+          <p><strong>Email:</strong> ${safeEmail}</p>
+          <p><strong>Telefone:</strong> ${safePhone}</p>
           <p><strong>Serviço Pretendido:</strong> ${serviceLabel}</p>
           <p><strong>Mensagem:</strong></p>
-          <p>${message || "Sem mensagem adicional"}</p>
+          <p>${safeMessage}</p>
           <hr>
           <p><em>Enviado através do formulário de contacto do website</em></p>
         `,
@@ -77,7 +116,7 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error: any) {
     console.error("Error sending contact email:", error);
     return new Response(
-      JSON.stringify({ success: false, error: error.message }),
+      JSON.stringify({ success: false, error: "An error occurred processing your request" }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },
