@@ -1,4 +1,6 @@
-import { Lightbulb } from "lucide-react";
+import { useState } from "react";
+import { Lightbulb, ZoomIn } from "lucide-react";
+import { Lightbox } from "@/components/ui/lightbox";
 import maintenanceStages from "@/assets/tips/maintenance-stages.png";
 import roadReadyChecklist from "@/assets/tips/road-ready-checklist.png";
 import diagnosticGuide from "@/assets/tips/diagnostic-guide.png";
@@ -28,6 +30,14 @@ const tips = [
 ];
 
 export const TipsSection = () => {
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState({ src: "", alt: "" });
+
+  const openLightbox = (src: string, alt: string) => {
+    setSelectedImage({ src, alt });
+    setLightboxOpen(true);
+  };
+
   return (
     <section id="dicas" className="py-16 md:py-24 bg-secondary">
       <div className="container">
@@ -52,12 +62,18 @@ export const TipsSection = () => {
               key={index}
               className="bg-background rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
             >
-              <div className="aspect-video overflow-hidden">
+              <div
+                className="aspect-video overflow-hidden relative group cursor-pointer"
+                onClick={() => openLightbox(tip.image, tip.title)}
+              >
                 <img
                   src={tip.image}
                   alt={tip.title}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                  <ZoomIn className="w-10 h-10 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-semibold text-foreground mb-2">
@@ -68,6 +84,13 @@ export const TipsSection = () => {
             </div>
           ))}
         </div>
+
+        <Lightbox
+          isOpen={lightboxOpen}
+          onClose={() => setLightboxOpen(false)}
+          imageSrc={selectedImage.src}
+          imageAlt={selectedImage.alt}
+        />
 
         {/* Additional Tips */}
         <div className="mt-16 bg-background rounded-xl p-8">
