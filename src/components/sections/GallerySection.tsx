@@ -1,29 +1,37 @@
 import { useState } from "react";
+import hondaBefore from "@/assets/gallery/honda-before.jpg";
+import hondaAfter from "@/assets/gallery/honda-after.jpg";
+import kawasakiBefore from "@/assets/gallery/kawasaki-before.jpg";
+import kawasakiAfter from "@/assets/gallery/kawasaki-after.jpg";
+import yamahaBefore from "@/assets/gallery/yamaha-before.jpg";
+import yamahaAfter from "@/assets/gallery/yamaha-after.jpg";
+import bmwBefore from "@/assets/gallery/bmw-before.jpg";
+import bmwAfter from "@/assets/gallery/bmw-after.jpg";
 
 const galleryImages = [
   {
     id: 1,
-    before: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600",
-    after: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=600",
-    title: "Honda CB500F - Revisão Completa",
+    before: hondaBefore,
+    after: hondaAfter,
+    title: "Revisão Completa de Motor",
   },
   {
     id: 2,
-    before: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=600",
-    after: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=600",
-    title: "Kawasaki Z900 - Customização",
+    before: kawasakiBefore,
+    after: kawasakiAfter,
+    title: "Manutenção de Travões",
   },
   {
     id: 3,
-    before: "https://images.unsplash.com/photo-1547549082-6bc09f2049ae?w=600",
-    after: "https://images.unsplash.com/photo-1571008887538-b36bb32f4571?w=600",
-    title: "Yamaha MT-07 - Escape e Suspensão",
+    before: yamahaBefore,
+    after: yamahaAfter,
+    title: "Substituição de Corrente e Kit",
   },
   {
     id: 4,
-    before: "https://images.unsplash.com/photo-1558980664-10e7170b5df9?w=600",
-    after: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=600",
-    title: "BMW R1250GS - Manutenção Viagem",
+    before: bmwBefore,
+    after: bmwAfter,
+    title: "Troca de Óleo e Filtro",
   },
 ];
 
