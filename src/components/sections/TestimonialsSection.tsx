@@ -8,7 +8,7 @@ const testimonials = [
     role: "Honda Africa Twin",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
     rating: 5,
-    text: "Excelente serviço! A área de cliente é fantástica, consigo ver todo o histórico da minha mota e receber alertas de manutenção. Muito profissionais.",
+    text: "Fiz a revisão completa da minha Africa Twin e fiquei impressionado! A inspeção de 50 pontos detetou problemas que nem imaginava. Muito profissionais.",
   },
   {
     id: 2,
@@ -16,7 +16,7 @@ const testimonials = [
     role: "Yamaha MT-09",
     avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
     rating: 5,
-    text: "Finalmente uma oficina que me trata como uma verdadeira motociclista! Transparência total nos orçamentos e qualidade impecável.",
+    text: "A troca de óleo e filtro foi rápida e o preço muito justo. Usaram óleo premium e a mota ficou a ronronar. Recomendo vivamente!",
   },
   {
     id: 3,
@@ -24,7 +24,31 @@ const testimonials = [
     role: "BMW R1250GS",
     avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop",
     rating: 5,
-    text: "Levo a minha GS aqui há 3 anos. A equipa conhece a mota como ninguém. O sistema de lembretes já me salvou de várias situações.",
+    text: "O diagnóstico de falhas identificou exatamente o problema da minha GS em minutos. A leitura de erros e reprogramação da centralina resolveu tudo!",
+  },
+  {
+    id: 4,
+    name: "Sofia Rodrigues",
+    role: "Kawasaki Z900",
+    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
+    rating: 5,
+    text: "Troquei pneus e pastilhas de travão aqui. A montagem foi perfeita e a calibração impecável. Agora sinto muito mais confiança nas curvas!",
+  },
+  {
+    id: 5,
+    name: "Pedro Santos",
+    role: "Ducati Monster 821",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop",
+    rating: 5,
+    text: "A reparação do motor da minha Ducati foi um trabalho de mestre. Retificaram, trocaram juntas e válvulas. Ficou como nova, melhor até!",
+  },
+  {
+    id: 6,
+    name: "Joana Martins",
+    role: "Triumph Bonneville T120",
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop",
+    rating: 5,
+    text: "O restauro da minha Bonneville clássica ficou espetacular! Novo escape, suspensão ajustada e uma pintura personalizada de sonho. Arte pura!",
   },
 ];
 
