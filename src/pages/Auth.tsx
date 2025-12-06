@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const loginSchema = z.object({
   email: z.string().trim().email("Email inválido").max(255),
@@ -21,8 +22,14 @@ const signupSchema = loginSchema.extend({
   path: ["confirmPassword"],
 });
 
+const resetSchema = z.object({
+  email: z.string().trim().email("Email inválido").max(255),
+});
+
+type AuthMode = "login" | "signup" | "reset";
+
 const Auth = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [mode, setMode] = useState<AuthMode>("login");
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -48,13 +55,63 @@ const Auth = () => {
     setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
+  const handleResetPassword = async () => {
+    const result = resetSchema.safeParse({ email: formData.email });
+    if (!result.success) {
+      const fieldErrors: Record<string, string> = {};
+      result.error.errors.forEach((err) => {
+        if (err.path[0]) {
+          fieldErrors[err.path[0] as string] = err.message;
+        }
+      });
+      setErrors(fieldErrors);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(formData.email, {
+        redirectTo: `${window.location.origin}/auth`,
+      });
+
+      if (error) {
+        toast({
+          title: "Erro",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Email enviado!",
+          description: "Verifique a sua caixa de correio para redefinir a password.",
+        });
+        setMode("login");
+        setFormData({ email: "", password: "", name: "", confirmPassword: "" });
+      }
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Ocorreu um erro inesperado. Tente novamente.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
+
+    if (mode === "reset") {
+      await handleResetPassword();
+      return;
+    }
+
     setLoading(true);
 
     try {
-      if (isLogin) {
+      if (mode === "login") {
         const result = loginSchema.safeParse(formData);
         if (!result.success) {
           const fieldErrors: Record<string, string> = {};
@@ -136,10 +193,44 @@ const Auth = () => {
     }
   };
 
-  const toggleMode = () => {
-    setIsLogin(!isLogin);
+  const changeMode = (newMode: AuthMode) => {
+    setMode(newMode);
     setErrors({});
     setFormData({ email: "", password: "", name: "", confirmPassword: "" });
+  };
+
+  const getTitle = () => {
+    switch (mode) {
+      case "login":
+        return "Entrar na Garagem";
+      case "signup":
+        return "Criar Conta";
+      case "reset":
+        return "Recuperar Password";
+    }
+  };
+
+  const getSubtitle = () => {
+    switch (mode) {
+      case "login":
+        return "Aceda à sua garagem virtual";
+      case "signup":
+        return "Comece a gerir as suas motas";
+      case "reset":
+        return "Introduza o seu email para recuperar a password";
+    }
+  };
+
+  const getButtonText = () => {
+    if (loading) return "A processar...";
+    switch (mode) {
+      case "login":
+        return "Entrar";
+      case "signup":
+        return "Criar Conta";
+      case "reset":
+        return "Enviar Email";
+    }
   };
 
   return (
@@ -164,19 +255,13 @@ const Auth = () => {
             <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
               <Bike className="w-8 h-8 text-accent-foreground" />
             </div>
-            <h1 className="text-2xl font-bold text-foreground">
-              {isLogin ? "Entrar na Garagem" : "Criar Conta"}
-            </h1>
-            <p className="text-muted-foreground mt-2">
-              {isLogin
-                ? "Aceda à sua garagem virtual"
-                : "Comece a gerir as suas motas"}
-            </p>
+            <h1 className="text-2xl font-bold text-foreground">{getTitle()}</h1>
+            <p className="text-muted-foreground mt-2">{getSubtitle()}</p>
           </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
-            {!isLogin && (
+            {mode === "signup" && (
               <div className="space-y-2">
                 <Label htmlFor="name">Nome</Label>
                 <div className="relative">
@@ -216,26 +301,39 @@ const Auth = () => {
               )}
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className={`pl-10 ${errors.password ? "border-destructive" : ""}`}
-                />
+            {mode !== "reset" && (
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="password">Password</Label>
+                  {mode === "login" && (
+                    <button
+                      type="button"
+                      onClick={() => changeMode("reset")}
+                      className="text-sm text-accent hover:underline"
+                    >
+                      Esqueceu a password?
+                    </button>
+                  )}
+                </div>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="••••••••"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className={`pl-10 ${errors.password ? "border-destructive" : ""}`}
+                  />
+                </div>
+                {errors.password && (
+                  <p className="text-sm text-destructive">{errors.password}</p>
+                )}
               </div>
-              {errors.password && (
-                <p className="text-sm text-destructive">{errors.password}</p>
-              )}
-            </div>
+            )}
 
-            {!isLogin && (
+            {mode === "signup" && (
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword">Confirmar Password</Label>
                 <div className="relative">
@@ -262,22 +360,35 @@ const Auth = () => {
               className="w-full"
               disabled={loading}
             >
-              {loading ? "A processar..." : isLogin ? "Entrar" : "Criar Conta"}
+              {getButtonText()}
             </Button>
           </form>
 
           {/* Toggle */}
-          <div className="mt-6 text-center">
-            <p className="text-muted-foreground">
-              {isLogin ? "Ainda não tem conta?" : "Já tem conta?"}
-              <button
-                type="button"
-                onClick={toggleMode}
-                className="ml-2 text-accent hover:underline font-medium"
-              >
-                {isLogin ? "Criar conta" : "Entrar"}
-              </button>
-            </p>
+          <div className="mt-6 text-center space-y-2">
+            {mode === "reset" ? (
+              <p className="text-muted-foreground">
+                Lembrou-se da password?
+                <button
+                  type="button"
+                  onClick={() => changeMode("login")}
+                  className="ml-2 text-accent hover:underline font-medium"
+                >
+                  Voltar ao login
+                </button>
+              </p>
+            ) : (
+              <p className="text-muted-foreground">
+                {mode === "login" ? "Ainda não tem conta?" : "Já tem conta?"}
+                <button
+                  type="button"
+                  onClick={() => changeMode(mode === "login" ? "signup" : "login")}
+                  className="ml-2 text-accent hover:underline font-medium"
+                >
+                  {mode === "login" ? "Criar conta" : "Entrar"}
+                </button>
+              </p>
+            )}
           </div>
         </div>
       </main>
