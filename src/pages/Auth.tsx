@@ -176,9 +176,21 @@ const Auth = () => {
             });
           }
         } else {
+          // Send welcome email
+          try {
+            await supabase.functions.invoke("send-welcome-email", {
+              body: {
+                name: formData.name,
+                email: formData.email,
+              },
+            });
+          } catch (emailError) {
+            console.error("Failed to send welcome email:", emailError);
+          }
+          
           toast({
             title: "Conta criada!",
-            description: "A sua conta foi criada com sucesso.",
+            description: "A sua conta foi criada com sucesso. Verifique o seu email.",
           });
         }
       }
