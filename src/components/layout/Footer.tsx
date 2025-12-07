@@ -22,7 +22,7 @@ export const Footer = () => {
               <a href="#" className="hover:text-accent transition-colors" aria-label="Instagram">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="hover:text-accent transition-colors" aria-label="Youtube">
+              <a href="https://www.youtube.com/@mecanicodemotos3395" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors" aria-label="Youtube">
                 <Youtube className="w-5 h-5" />
               </a>
             </div>
