@@ -16,7 +16,7 @@ export const Footer = () => {
               tecnologia de ponta e paixão pelo que fazemos.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="hover:text-accent transition-colors" aria-label="Facebook">
+              <a href="https://www.facebook.com/mecanicomotociclos" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors" aria-label="Facebook">
                 <Facebook className="w-5 h-5" />
               </a>
               <a href="#" className="hover:text-accent transition-colors" aria-label="Instagram">
