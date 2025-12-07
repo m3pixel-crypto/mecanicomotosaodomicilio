@@ -19,7 +19,7 @@ export const Footer = () => {
               <a href="https://www.facebook.com/mecanicomotociclos" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors" aria-label="Facebook">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="#" className="hover:text-accent transition-colors" aria-label="Instagram">
+              <a href="https://www.instagram.com/mecanicomotociclos/" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors" aria-label="Instagram">
                 <Instagram className="w-5 h-5" />
               </a>
               <a href="https://www.youtube.com/@mecanicodemotos3395" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors" aria-label="Youtube">
